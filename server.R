@@ -73,7 +73,7 @@ shinyServer(function(input, output, session) {
     )
   })
   
-  plot_data <- eventReactive(c(input$gene, input$cell_groups), {
+  plot_data <- eventReactive(c(input$gene, input$cell_groups, input$colorblind_mode), {
     if (input$gene == "") {
       return()
     }
@@ -179,9 +179,9 @@ shinyServer(function(input, output, session) {
       if (is.null(plot_data()$p2)) {
         plot_data()$p1
       } else {
-        gA = ggplot_gtable(ggplot_build(plot_data()$p1))
-        gB = ggplot_gtable(ggplot_build(plot_data()$p2))
-        maxWidth = grid::unit.pmax(gA$widths, gB$widths)
+        gA <- ggplot_gtable(ggplot_build(plot_data()$p1))
+        gB <- ggplot_gtable(ggplot_build(plot_data()$p2))
+        maxWidth <- grid::unit.pmax(gA$widths, gB$widths)
         gA$widths <- as.list(maxWidth)
         gB$widths <- as.list(maxWidth)
         grid.newpage()
