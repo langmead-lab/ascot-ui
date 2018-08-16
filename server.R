@@ -39,7 +39,7 @@ shinyServer(function(input, output, session) {
       filename <- paste("data", filename, sep = "/")
       load(filename)
       query_table <-
-        rename(
+        dplyr::rename(
           query_table,
           visual = `Search Bar Lookup Value`,
           value = `Gene Coverage Lookup Value`,
