@@ -81,7 +81,7 @@ shinyServer(function(input, output, session) {
     print(input$gene)
     #JL coverage
     coverage <-
-      collection()$gene_coverage[gene_symbol == input$gene,-(gene_id)] %>%
+      collection()$gene_coverage[gene_symbol == input$gene,-c("gene_id")] %>%
       melt(
         measure.vars = patterns(".*"),
         variable.name = "cell_type",
