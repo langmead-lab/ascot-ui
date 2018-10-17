@@ -78,23 +78,35 @@ shinyServer(function(input, output, session) {
       return()
     }
     
+    # Adjust height based on compilation
+    if (input$dataset == 'mesa') {
+      base_height <- 725
+    } else if (input$dataset == 'gtex') {
+      base_height <- 725
+    } else if (input$dataset == 'encodehepg2') {
+      base_height <- 725
+    } else if (input$dataset == 'encodek562') {
+      base_height <- 725
+    }
+    
     print(input$gene)
-    #JL coverage
     coverage <-
       collection()$gene_coverage[gene_symbol == input$gene,-c("gene_id")] %>%
       melt(
-        measure.vars = patterns(".*"),
         variable.name = "cell_type",
         value.name = "gene_expression",
         variable.factor = FALSE
       )
+    
     coverage <-
       coverage[collection()$categories,
                on = "cell_type", nomatch = 0][cell_group %in% input$cell_groups]
     
     p1 <-
       ggplot(coverage, aes(x = cell_type, y = gene_expression)) +
-      ggtitle(input$gene, subtitle = paste(input$dataset, " compilation")) +
+      ggtitle(input$gene, 
+              subtitle = paste("(", collection()$gene_coverage$gene_id, ")", sep="")
+             ) +
       geom_bar(stat = "identity",
                mapping = aes(fill = cell_group)) +
       theme_minimal() +
@@ -103,12 +115,13 @@ shinyServer(function(input, output, session) {
                        limits = coverage$cell_type) +
       scale_y_continuous("Gene Expression\n(NAUC)\n", expand = c(0, 0)) +
       theme(text = element_text(size=16),
-        plot.title = element_text(hjust = 0.5),
+        plot.title = element_text(hjust = 0.5, size = 30),
         plot.subtitle = element_text(hjust = 0.5),
+        legend.box.margin = unit(c(-40,0,0,0), "pt"),
         axis.text.x = element_text(
         angle = 90,
         hjust = 1,
-        vjust = 0.5
+        vjust = 0.4
       ))
     
     if (input$colorblind_mode) {
@@ -134,6 +147,15 @@ shinyServer(function(input, output, session) {
         sort(nchar(group_labels), decreasing = TRUE)[1]
       scale_labels <-
         stringr::str_pad(seq(0, 100, by = 25), width = padding_width, side = "right")
+      
+      if (nrow(gene_psi)/nrow(coverage) == 1) {
+        vshift <- 70
+      } else if (nrow(gene_psi)/nrow(coverage) == 2) {
+        vshift <- 40
+      } else {
+        vshift <- 0
+      }
+      
       p2 <- ggplot(gene_psi, aes(x = cell_type, y = exon_id)) +
         geom_tile(aes(fill = PSI), color = "white") +
         theme_minimal() +
@@ -142,10 +164,12 @@ shinyServer(function(input, output, session) {
         scale_x_discrete(expand = c(0, 0),
                          limits = unique(gene_psi$cell_type)) +
         theme(text = element_text(size=16),
+          plot.margin = unit(c(-5,0,0,0), "pt"),
+          legend.box.margin = unit(c(vshift,0,0,-27), "pt"),
           axis.text.x = element_text(
           angle = 90,
           hjust = 1,
-          vjust = 0.5
+          vjust = 0.4
         ))
       if (input$colorblind_mode) {
         p2 <-
@@ -175,9 +199,9 @@ shinyServer(function(input, output, session) {
     list(p1 = p1,
          p2 = p2,
          height_px = if (is.null(p2))
-           725
+           base_height
          else
-           743 + 30*nrow(gene_psi)/nrow(coverage),
+           base_height + 30*nrow(gene_psi)/nrow(coverage),
          width_px = 130 + 13.5*nrow(coverage))
   }, ignoreInit = TRUE, ignoreNULL = TRUE)
   
