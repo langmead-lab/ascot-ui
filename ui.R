@@ -43,15 +43,12 @@ wellPanel(style = "
                     font-family: Open Sans;\">Alternative Splicing and Gene Expression<br/>
                     Summaries of Public RNA-Seq Data</span></font>"),
               HTML("<font size=\"2\"><span style=\"color: #ffffff;\">
-                    <br/><br/>(powered by <span style=\"text-decoration: underline;\">
-                    <a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"http://snaptron.cs.jhu.edu/\">Snaptron</a></span>&nbspand&nbsp<span 
-                    style=\"text-decoration: underline;\">
+                    <br/><br/>(powered by <span><a style=\"color: #ffffff; text-decoration: underline;\" 
+                    href=\"http://snaptron.cs.jhu.edu/\">Snaptron</a></span>&nbspand&nbsp<span>
                     <a style=\"color: #ffffff; text-decoration: underline;\"
-                    href=\"https://jhubiostatistics.shinyapps.io/recount/\">Recount2</a></span>)</span></font>"),
-              HTML("<font size=\"2\"><br/>&nbsp</font>")
+                    href=\"https://jhubiostatistics.shinyapps.io/recount/\">Recount2</a></span>)</span><br/></font>")
     ),
-    column(6, align = "right", img(src="header_logos.png", height="160pt"))
+    column(6, style="padding: 5px 12px 5px;", align = "right", img(src="logos160.png"))
   )
 ),
 
@@ -62,7 +59,7 @@ wellPanel(style = "margin-top:-10px; padding: 5px 20px 0px;", fluidRow(
       "dataset",
       tags$b("Select Dataset"),
       choices = c("MESA (Mouse Cell Types)" = "mesa",
-                  "GTEx (Human Tissues)" = "gtex",
+                  "GTEx (Human Tissues)" = "gtextissue",
                   "ENCODE HepG2 (shRNA-seq)" = "encodehepg2",
                   "ENCODE K562 (shRNA-seq)" = "encodek562"),
       selected = "mesa"
@@ -89,18 +86,17 @@ wellPanel(style = "margin-top:-10px; padding: 5px 20px 0px;", fluidRow(
       )
     )
   ),
-  column(
-    2,
-    sliderInput("range", "NAUC view range:",
-                    min = 0, max = 1000,
-                    value = c(200,500))
-  ),
-  column(
-    2,
-    sliderInput("range", "PSI view range:",
+  column(2,
+    sliderInput("nauc_range", "NAUC view range:",
                     min = 0, max = 100,
-                    value = c(0,30))
-  )
+                    value = c(0,20))
+  ),
+  column(2,
+    sliderInput("psi_range", "PSI view range:",
+                    min = 0, max = 100,
+                    value = c(0,100))
+  ),
+  column(2, checkboxInput("colorblind_mode", "Enable Colorblind Mode"))
 )),
 
 plotOutput("plot", height = "500px") %>% withSpinner(),
@@ -110,8 +106,8 @@ absolutePanel(
   fixed = TRUE,
   draggable = FALSE,
   top = "auto",
-  left = 10,
-  right = "auto",
+  left = "auto",
+  right = 10,
   bottom = 0,
   width = 330,
   height = "auto",
@@ -128,9 +124,6 @@ absolutePanel(
         selected = NULL
       )
     )),
-    checkboxInput(
-      "colorblind_mode", "Enable Colorblind Mode"
-    ),
     wellPanel(uiOutput("exon_filter_widget")),
     wellPanel(uiOutput("save_widget"))
   )

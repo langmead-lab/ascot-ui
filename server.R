@@ -60,9 +60,10 @@ shinyServer(function(input, output, session) {
     updateSelectizeInput(
       session,
       "gene",
+      #Gene Coverage Lookup Value
       choices = setNames(collection()$query_table[["Search Bar Lookup Value"]],
                          collection()$query_table[["Search Bar Visual"]]),
-      selected = collection()$query_table[["Search Bar Lookup Value"]][1],
+      selected = collection()$query_table[["Search Bar Lookup Value"]][150],
       options = list(
         render = I('{
           item: function(item, escape) {
@@ -81,15 +82,24 @@ shinyServer(function(input, output, session) {
     # Adjust height based on compilation
     if (input$dataset == 'mesa') {
       base_height <- 725
-    } else if (input$dataset == 'gtex') {
-      base_height <- 725
+      base_width <- 130
+      col_width <- 13.5
+    } else if (input$dataset == 'gtextissue') {
+      base_height <- 465
+      base_width <- 130
+      col_width <- 20
     } else if (input$dataset == 'encodehepg2') {
-      base_height <- 725
+      base_height <- 450
+      base_width <- 130
+      col_width <- 20
     } else if (input$dataset == 'encodek562') {
-      base_height <- 725
+      base_height <- 450
+      base_width <- 130
+      col_width <- 20
     }
     
     print(input$gene)
+    subtitle_id <- collection()$gene_coverage[gene_symbol == input$gene]$gene_id
     coverage <-
       collection()$gene_coverage[gene_symbol == input$gene,-c("gene_id")] %>%
       melt(
@@ -105,7 +115,7 @@ shinyServer(function(input, output, session) {
     p1 <-
       ggplot(coverage, aes(x = cell_type, y = gene_expression)) +
       ggtitle(input$gene, 
-              subtitle = paste("(", collection()$gene_coverage$gene_id, ")", sep="")
+              subtitle = paste("(", subtitle_id, ")", sep="")
              ) +
       geom_bar(stat = "identity",
                mapping = aes(fill = cell_group)) +
@@ -165,7 +175,7 @@ shinyServer(function(input, output, session) {
                          limits = unique(gene_psi$cell_type)) +
         theme(text = element_text(size=16),
           plot.margin = unit(c(-5,0,0,0), "pt"),
-          legend.box.margin = unit(c(vshift,0,0,-27), "pt"),
+          legend.box.margin = unit(c(vshift,0,0,-nrow(coverage)/4.6666), "pt"),
           axis.text.x = element_text(
           angle = 90,
           hjust = 1,
@@ -202,7 +212,10 @@ shinyServer(function(input, output, session) {
            base_height
          else
            base_height + 30*nrow(gene_psi)/nrow(coverage),
-         width_px = 130 + 13.5*nrow(coverage))
+         width_px = if (is.null(p2))
+           base_width + col_width*nrow(coverage)
+         else
+           base_width + col_width*nrow(coverage))
   }, ignoreInit = TRUE, ignoreNULL = TRUE)
   
   observeEvent(plot_data(), {
