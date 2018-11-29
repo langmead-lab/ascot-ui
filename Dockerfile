@@ -2,7 +2,7 @@ FROM rocker/shiny
 
 RUN Rscript -e "install.packages(c('ggplot2', 'gridExtra'), repos='https://cran.rstudio.com/')"
 RUN Rscript -e "install.packages(c('shinyBS', 'shinycssloaders', 'shinydashboard', \
-                                   'shinythemes', 'shinyjs'), repos='https://cran.rstudio.com/')"
+                                   'shinythemes', 'shinyjs', 'DT'), repos='https://cran.rstudio.com/')"
 RUN Rscript -e "install.packages(c('data.table'), repos='https://cran.rstudio.com/')"
 RUN rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
