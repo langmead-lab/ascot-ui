@@ -92,7 +92,7 @@ shinyServer(function(input, output, session) {
     }
 	})
 
-  plot_data <- eventReactive(c(input$gene, input$cell_groups, input$colorblind_mode, input$naucRange, input$psiRange), {
+  plot_data <- eventReactive(c(input$cell_groups, input$colorblind_mode, input$naucRange, input$psiRange), {
     if (input$gene == "") {
       return()
     }
