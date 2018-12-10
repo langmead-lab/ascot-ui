@@ -50,7 +50,7 @@ wellPanel(style = "
                     style=\"color: #ffffff; text-decoration: underline;\"
                     href=\"https://jhubiostatistics.shinyapps.io/recount/\">Recount2</a></span>)</span><br/></font>")
     ),
-    column(5, style = "padding: 15px 0px 0px;",
+    column(6, style = "padding: 15px 0px 0px;",
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
                     href=\"https://google.com\">How to cite</br></a></span></span></font>"),
@@ -71,7 +71,7 @@ wellPanel(style = "
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
                     href=\"https://google.com\">Placeholder</a></span></span></font>")
     ),
-    column(4, style="padding: 5px 12px 5px;", align = "right", img(src="logos160.png"))
+    column(3, style="padding: 5px 12px 5px;", align = "right", img(src="header160.png"))
   )
 ),
 
@@ -80,11 +80,11 @@ wellPanel(style = "margin-top:-10px; padding: 5px 20px 0px;", fluidRow(
     selectInput(
       "dataset",
       tags$b("Select Dataset"),
-      choices = c("MESA (Mouse Cell Types)" = "mesa",
-                  "CellTower (Mouse Single Cell RNA-Seq)" = "ctms",
-                  "GTEx (Human Tissues)" = "gtextissue",
-                  "ENCODE HepG2 (shRNA-seq)" = "encodehepg2",
-                  "ENCODE K562 (shRNA-seq)" = "encodek562"
+      choices = c("Mouse Cells and Tissues (MESA)" = "mesa",
+                  "Mouse Single Cell RNA-Seq (CellTower)" = "ctms",
+                  "Human Tissues (GTEx)" = "gtex",
+                  "HepG2 shRNA (ENCODE)" = "enchepg2",
+                  "K562 shRNA (ENCODE)" = "enck562"
                  ),
       selected = "mesa"
     )
@@ -111,19 +111,19 @@ wellPanel(style = "margin-top:-10px; padding: 5px 20px 0px;", fluidRow(
   ),
   column(2,
     sliderInput("naucRange", "NAUC view range:",
-			min = 0, max = 100,
-			value = c(0,100),
-			step = 1
-		)
+            min = 0, max = 100,
+            value = c(0,100),
+            step = 1
+        )
   ),
   column(2,
     sliderInput("psiRange", "PSI view range:",
-			min = 0, max = 100,
-			value = c(0,100),
-			step = 5
-		)
+            min = 0, max = 100,
+            value = c(0,100),
+            step = 5
+        )
   ),
-  column(2, checkboxInput("colorblind_mode", "Enable Colorblind Mode"))
+  column(2, checkboxInput("colorblind_mode", "Rainbow PSI"))
 )),
 
 plotOutput("plot", height = "auto") %>% withSpinner(),
@@ -148,7 +148,7 @@ wellPanel(style = "
           box-shadow: 0 5px 5px -5px #333;
           padding: 0px 16px 10px;
           ",
-	DT::dataTableOutput("exontable")
+    DT::dataTableOutput("exontable")
 ),
 
 wellPanel(style = "

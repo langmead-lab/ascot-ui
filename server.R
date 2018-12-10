@@ -56,6 +56,7 @@ shinyServer(function(input, output, session) {
                              selected = cell_groups)
   })
   
+  defaultGene <- 6863
   observe({
     updateSelectizeInput(
       session,
@@ -63,68 +64,67 @@ shinyServer(function(input, output, session) {
       #Gene Coverage Lookup Value
       choices = setNames(collection()$query_table[["Search Bar Lookup Value"]],
                          collection()$query_table[["Search Bar Visual"]]),
-      selected = collection()$query_table[["Search Bar Lookup Value"]][150],
+      selected = collection()$query_table[["Search Bar Lookup Value"]][defaultGene],
       options = list(
         render = I('{
-				  item: function(item, escape) {
-					return "<div>" + escape(item.value) + "</div>";
-				  }
-				}')
+                  item: function(item, escape) {
+                    return "<div>" + escape(item.value) + "</div>";
+                  }
+                }')
       ), server = TRUE
     )
   })
 
-	observeEvent(input$gene, {
-		if (input$gene != "") {
-			naucMax <- max(collection()$gene_coverage[gene_symbol == input$gene,-c("gene_id", "gene_symbol")])
-			if (naucMax >= 100) {
-				naucMax <- ceiling(naucMax)
-				naucStep <- 1
-			} else if (naucMax >= 10 & naucMax < 100) {
-				naucMax <- ceiling(naucMax)
-				naucStep <- 0.5
-			} else if (naucMax >= 1 & naucMax < 10) {
-				naucStep <- 0.2
-			} else if (naucMax >= 0 & naucMax < 1) {
-				naucStep <- naucMax/100
-			}
-			updateSliderInput(session, "naucRange", value = c(0, naucMax), min = 0, max = naucMax, step = naucStep)			
+  observeEvent(input$gene, {
+    if (input$gene != "") {
+      naucMax <- max(collection()$gene_coverage[gene_symbol == input$gene,-c("gene_id", "gene_symbol")])
+      if (naucMax >= 100) {
+        naucMax <- ceiling(naucMax)
+        naucStep <- 1
+      } else if (naucMax >= 10 & naucMax < 100) {
+        naucMax <- ceiling(naucMax)
+        naucStep <- 0.5
+      } else if (naucMax >= 1 & naucMax < 10) {
+        naucStep <- 0.2
+      } else if (naucMax >= 0 & naucMax < 1) {
+        naucStep <- naucMax/100
+      }
+      updateSliderInput(session, "naucRange", value = c(0, naucMax), min = 0, max = naucMax, step = naucStep)            
     }
-	})
+  })
 
   plot_data <- eventReactive(c(input$cell_groups, input$colorblind_mode, input$naucRange, input$psiRange), {
     if (input$gene == "") {
       return()
     }
-    
     # Adjust height based on compilation
     if (input$dataset == 'mesa') {
       base_height <- 430
       base_width <- 130
-      col_width <- 14
+      col_width <- 16
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (mm10)", "Exon Boundary (mm10)")
     } else if (input$dataset == 'ctms') {
+      base_height <- 440
+      base_width <- 130
+      col_width <- 16
+      excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (mm10)", "Exon Boundary (mm10)")
+    } else if (input$dataset == 'gtex') {
       base_height <- 430
       base_width <- 130
-      col_width <- 20
-      excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (hg38)", "Exon Boundary (mm10)")
-    } else if (input$dataset == 'gtextissue') {
-      base_height <- 465
-      base_width <- 130
-      col_width <- 20
+      col_width <- 16
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (hg38)", "Exon Boundary (hg38)")
-    } else if (input$dataset == 'encodehepg2') {
-      base_height <- 450
+    } else if (input$dataset == 'enchepg2') {
+      base_height <- 430
       base_width <- 130
-      col_width <- 20
+      col_width <- 18
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (hg38)", "Exon Boundary (hg38)")
-    } else if (input$dataset == 'encodek562') {
-      base_height <- 450
+    } else if (input$dataset == 'enck562') {
+      base_height <- 430
       base_width <- 130
-      col_width <- 20
+      col_width <- 18
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (hg38)", "Exon Boundary (hg38)")
     }
-		  
+          
     print(input$gene)
     subtitle_id <- collection()$gene_coverage[gene_symbol == input$gene]$gene_id
     coverage <-
@@ -135,10 +135,10 @@ shinyServer(function(input, output, session) {
         variable.factor = FALSE
       )
     
-		coverage <-
+        coverage <-
       coverage[collection()$categories,
                on = "cell_type", nomatch = 0][cell_group %in% input$cell_groups]
-	
+    
     p1 <-
       ggplot(coverage, aes(x = cell_type, y = gene_expression)) +
       ggtitle(input$gene, 
@@ -151,21 +151,22 @@ shinyServer(function(input, output, session) {
                        expand = c(0, 0),
                        limits = coverage$cell_type) +
       scale_y_continuous("Gene Expression\n(NAUC)\n", limits = c(input$naucRange[1], input$naucRange[2]),
-												oob = rescale_none, expand = c(0, 0)) +
-		  theme(text = element_text(size=16),
-			plot.title = element_text(hjust = 0.5, size = 30),
-			plot.subtitle = element_text(hjust = 0.5),
-			legend.box.margin = unit(c(-40,0,0,0), "pt"),
-			axis.text.x = element_text(
-			angle = 90,
-			hjust = 1,
-			vjust = 0.4
-		  ))
+                                                oob = rescale_none, expand = c(0, 0)) +
+          theme(text = element_text(size=16),
+            plot.title = element_text(hjust = 0.5, size = 30),
+            plot.subtitle = element_text(hjust = 0.5),
+            legend.box.margin = unit(c(-40,0,0,0), "pt"),
+            axis.text.x = element_text(
+            angle = 90,
+            hjust = 1,
+            vjust = 0.4
+          ))
     
     if (input$colorblind_mode) {
-      p1 <- p1 + scale_fill_manual("Cell Groups", values = cbPalette)
+      #p1 <- p1 + scale_fill_manual("Cell Groups", values = cbPalette)
+      p1 <- p1 + scale_fill_brewer("Cell Groups", palette = "Dark2")
     } else {
-      p1 <- p1 + scale_fill_brewer("Cell Groups", palette = "Set2")
+      p1 <- p1 + scale_fill_brewer("Cell Groups", palette = "Dark2")
     }
     
     gene_psi <- collection()$psi[gene_symbol == input$gene,-(cassette_exon:exon_boundary)] %>%
@@ -177,33 +178,32 @@ shinyServer(function(input, output, session) {
     gene_psi <-
       gene_psi[collection()$categories, on = "cell_type", nomatch = 0][cell_group %in% input$cell_groups]
 
-	  exdt <- collection()$psi[gene_symbol == input$gene, c(1:6,11,12)]
-		output$exontable <- DT::renderDataTable(DT::datatable(head(exdt),
-		  caption = htmltools::tags$caption(
-				htmltools::tags$span(
-					style = "vertical-align: middle; font-size:125%; color:black",
-					"Alternative Exon Metadata "
-				),
-				htmltools::tags$span(
-					style = "vertical-align: middle; font-size:100%; color:black",
-					"— (CA = Cassette, AG = Alternative Splice Site Group, LK= Linked Exons, ME = Mutually Exclusive, ST = Strand)"
-				)
-		  ),
-			rownames = FALSE,
-			colnames=excn,
-			options = list(dom = 't', order = list(list(0, 'desc'))))
-	  )
+      exdt <- collection()$psi[gene_symbol == input$gene, c(1:6,11,12)]
+        output$exontable <- DT::renderDataTable(DT::datatable(head(exdt,200),
+          caption = htmltools::tags$caption(
+                htmltools::tags$span(
+                    style = "vertical-align: middle; font-size:125%; color:black",
+                    "Alternative Exon Metadata "
+                ),
+                htmltools::tags$span(
+                    style = "vertical-align: middle; font-size:100%; color:black",
+                    "— (CA = Cassette, AG = Alternative Splice Site Group, LK= Linked Exons, ME = Mutually Exclusive, ST = Strand)"
+                )
+          ),
+            rownames = FALSE,
+            colnames=excn,
+            options = list(dom = 't', order = list(list(0, 'desc'))))
+      )
     
     if (nrow(gene_psi) == 0) {
       p2 <- NULL
     } else {
       group_labels <- unique(gene_psi$cell_group)
       padding_width <- sort(nchar(group_labels), decreasing = TRUE)[1]
-			
-			psiMin <- input$psiRange[1]
-			psiMax <- input$psiRange[2]
+      psiMin <- input$psiRange[1]
+      psiMax <- input$psiRange[2]
       scale_labels <- stringr::str_pad(seq(psiMin, psiMax, by = round((psiMax - psiMin)/4, digits=0)), width = padding_width, side = "right")
-			break_numbers <- c(seq(psiMin, psiMax, by = round((psiMax - psiMin)/4, digits=0)))
+      break_numbers <- c(seq(psiMin, psiMax, by = round((psiMax - psiMin)/4, digits=0)))
       
       if (nrow(gene_psi)/nrow(coverage) == 1) {
         vshift <- 70
@@ -212,14 +212,16 @@ shinyServer(function(input, output, session) {
       } else {
         vshift <- 0
       }
-			
+      if (input$dataset == "ctms") {
+        vshift <- vshift + 60
+      }
+
       p2 <- ggplot(gene_psi, aes(x = cell_type, y = exon_id)) +
         geom_tile(aes(fill = PSI), color = "white") +
         theme_minimal() +
         xlab("") +
         ylab("Exon\n(PSI)\n") +
-        scale_x_discrete(expand = c(0, 0),
-                         limits = unique(gene_psi$cell_type)) +
+        scale_x_discrete(expand = c(0, 0), limits = unique(gene_psi$cell_type)) +
         theme(text = element_text(size=16),
           plot.margin = unit(c(-5,0,0,0), "pt"),
           legend.box.margin = unit(c(vshift,0,0,-nrow(coverage)/4.6666), "pt"),
@@ -231,21 +233,21 @@ shinyServer(function(input, output, session) {
       if (input$colorblind_mode) {
         p2 <-
           p2 + scale_fill_distiller(
-            palette = "Blues",
-            direction = 1,
+            palette = "Spectral",
             limits = c(input$psiRange[1], input$psiRange[2]),
             labels = scale_labels,
-						breaks = break_numbers,
-						oob = squish
+            breaks = break_numbers,
+            oob = squish
           )
       } else {
         p2 <-
           p2 + scale_fill_distiller(
-            palette = "Spectral",
+            palette = "Blues",
+            direction = 1,
             limits = c(input$psiRange[1], input$psiRange[2]),
             labels = scale_labels,
-						breaks = break_numbers,
-						oob = squish
+            breaks = break_numbers,
+            oob = squish
           )
       }
     }
@@ -258,15 +260,15 @@ shinyServer(function(input, output, session) {
         theme(axis.text.x = element_blank())
     }
     list(p1 = p1,
-			p2 = p2,
-			height_px = if (is.null(p2))
-			  base_height
-			else
-			  base_height + 30*nrow(gene_psi)/nrow(coverage),
-			width_px = if (is.null(p2))
-			  base_width + col_width*nrow(coverage)
-			else
-			  base_width + col_width*nrow(coverage))
+            p2 = p2,
+            height_px = if (is.null(p2))
+              base_height
+            else
+              base_height + 30*nrow(gene_psi)/nrow(coverage),
+            width_px = if (is.null(p2))
+              base_width + col_width*nrow(coverage)
+            else
+              base_width + col_width*nrow(coverage))
   }, ignoreInit = TRUE, ignoreNULL = TRUE)
   
   observeEvent(plot_data(), {
