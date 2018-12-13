@@ -11,5 +11,7 @@ COPY www /srv/shiny-server/ascot-ui/www
 COPY data /srv/shiny-server/ascot-ui/data
 COPY *.R /srv/shiny-server/ascot-ui/
 
+RUN wget -i /srv/shiny-server/ascot-ui/data/rdata.txt -P /srv/shiny-server/ascot-ui/data
+
 RUN echo >> /etc/shiny-server/shiny-server.conf
 RUN echo "preserve_logs true;" >> /etc/shiny-server/shiny-server.conf
