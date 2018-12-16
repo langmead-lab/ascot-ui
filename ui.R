@@ -46,30 +46,36 @@ wellPanel(style = "
                     Summaries of Public RNA-Seq Data</span></font>"),
               HTML("<font size=\"2\"><span style=\"color: #ffffff;\">
                     <br/><br/>(powered by <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"http://snaptron.cs.jhu.edu/\">Snaptron</a></span>&nbspand&nbsp<span><a 
+                    href=\"http://snaptron.cs.jhu.edu/\" target=\"_blank\">Snaptron</a></span>&nbspand&nbsp<span><a 
                     style=\"color: #ffffff; text-decoration: underline;\"
-                    href=\"https://jhubiostatistics.shinyapps.io/recount/\">Recount2</a></span>)</span><br/></font>")
+                    href=\"https://jhubiostatistics.shinyapps.io/recount/\" target=\"_blank\">Recount2</a></span>)</span><br/></font>")
     ),
-    column(6, style = "padding: 15px 0px 0px;",
-              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
+    column(4, style = "padding: 7px 0px 0px;",
+              HTML("<font size=\"5\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://google.com\">How to cite</br></a></span></span></font>"),
-              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
+                    href=\"naucpsi.html\" target=\"_blank\">How to use this website</a></span> <<</br></span></font>"),
+              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://google.com\">Where did we find the data?</br></a></span></span></font>"),
-              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
+                    href=\"naucpsi.html\" target=\"_blank\">What do NAUC and PSI mean?</br></a></span></span></font>"),
+              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://google.com\">Visualize data on the UCSC Genome Browser</br></a></span>
+                    href=\"http://snaptron.cs.jhu.edu/data/ascot/datasources.html\" 
+                    target=\"_blank\">What publications did we use as data sources?</br></a></span></span></font>"),
+              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
+                    <span><a style=\"color: #ffffff; text-decoration: underline;\"
+                    href=\"ucsctracks.html\" target=\"_blank\">Visualize data on the UCSC Genome Browser</br></a></span>
                     </span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://google.com\">Download the raw data</br></a></span></span></font>"),
+                    href=\"http://snaptron.cs.jhu.edu/data/ascot/tables\" target=\"_blank\">Download the raw data tables</br></a></span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://google.com\">GitHub repository</br></a></span></span></font>"),
-              HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
+                    href=\"https://github.com/jpling/ascot\" target=\"_blank\">GitHub repository</br></a></span></span></font>")
+    ),
+    column(2, style="padding: 28px 0px 0px;",
+              HTML("<font size=\"5\"><span style=\"color: #ffffff; font-family: Open Sans;\">For more details, please</br>refer to our preprint:</br>
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://google.com\">Placeholder</a></span></span></font>")
+                    href=\"https://www.google.com\" target=\"_blank\">Ling et al. 2018 bioRxiv</a></span></span></font>")
     ),
     column(3, style="padding: 5px 12px 5px;", align = "right", img(src="header160.png"))
   )
@@ -160,17 +166,17 @@ wellPanel(style = "
     column(4, class = "text-left",
               HTML("<font size=\"3\"><span style=\"color: #4c4c4c; font-family: Open Sans;\">
                     <span><a style=\"color: #4c4c4c; text-decoration: underline;\" 
-                    href=\"http://www.langmead-lab.org/\">Ben Langmead Lab</a></span></br>
+                    href=\"http://www.langmead-lab.org/\" target=\"_blank\">Ben Langmead Lab</a></span></br>
                     </span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #4c4c4c; font-family: Open Sans;\">                    
                     <span><a style=\"color: #4c4c4c; text-decoration: underline;\" 
-                    href=\"http://neuroscience.jhu.edu/research/faculty/7\">Seth Blackshaw Lab</a></span></br>
+                    href=\"http://neuroscience.jhu.edu/research/faculty/7\" target=\"_blank\">Seth Blackshaw Lab</a></span></br>
                     </span></font>")
     ),
     column(4, class = "text-center",
               HTML("<font size=\"3\"><span style=\"color: #4c4c4c; font-family: Open Sans;\">                    
                     Website developed by <span><a style=\"color: #4c4c4c; text-decoration: underline;\" 
-                    href=\"https://github.com/ch4rr0\">Rone Charles</a></span>
+                    href=\"https://github.com/ch4rr0\" target=\"_blank\">Rone Charles</a></span>
                     </span></font>")
     ),
     column(4, class = "text-right",
