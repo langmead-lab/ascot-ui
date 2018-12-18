@@ -19,6 +19,26 @@ library(data.table)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
+  dfPalette <-
+    c(
+      "#006629", 
+      "#d1561b",
+      "#777474",
+      "#d84b7e",
+      "#33506d",
+      "#707000",
+      "#d39817",
+      "#c13b20",
+      "#849b14",
+      "#c90c0c",
+      "#12967b",
+      "#832ba5",
+      "#a0396e",
+      "#6a54ff",
+      "#108989",
+      "#563434"
+    )
+  
   cbPalette <-
     c(
       "#999999",
@@ -104,14 +124,14 @@ shinyServer(function(input, output, session) {
       col_width <- 16
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (mm10)", "Exon Boundary (mm10)")
     } else if (input$dataset == 'ctms') {
-      base_height <- 440
+      base_height <- 430
       base_width <- 130
-      col_width <- 16
+      col_width <- 18
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (mm10)", "Exon Boundary (mm10)")
     } else if (input$dataset == 'gtex') {
       base_height <- 430
       base_width <- 130
-      col_width <- 16
+      col_width <- 18
       excn <- c("Exon ID", "CA", "AG", "LK", "ME", "ST", "Exon Location (hg38)", "Exon Boundary (hg38)")
     } else if (input$dataset == 'enchepg2') {
       base_height <- 430
@@ -139,6 +159,11 @@ shinyServer(function(input, output, session) {
       coverage[collection()$categories,
                on = "cell_type", nomatch = 0][cell_group %in% input$cell_groups]
     
+    p1shift <- -40
+    if (input$dataset == "ctms") {
+      p1shift <- p1shift + 50
+    } 
+    
     p1 <-
       ggplot(coverage, aes(x = cell_type, y = gene_expression)) +
       ggtitle(input$gene, 
@@ -155,7 +180,7 @@ shinyServer(function(input, output, session) {
           theme(text = element_text(size=16),
             plot.title = element_text(hjust = 0.5, size = 30),
             plot.subtitle = element_text(hjust = 0.5),
-            legend.box.margin = unit(c(-40,0,0,0), "pt"),
+            legend.box.margin = unit(c(p1shift,0,0,0), "pt"),
             axis.text.x = element_text(
             angle = 90,
             hjust = 1,
@@ -164,9 +189,10 @@ shinyServer(function(input, output, session) {
     
     if (input$colorblind_mode) {
       #p1 <- p1 + scale_fill_manual("Cell Groups", values = cbPalette)
-      p1 <- p1 + scale_fill_brewer("Cell Groups", palette = "Dark2")
+      #p1 <- p1 + scale_fill_brewer("Cell Groups", palette = "Dark2")
+      p1 <- p1 + scale_fill_manual("Cell Groups", values = dfPalette)
     } else {
-      p1 <- p1 + scale_fill_brewer("Cell Groups", palette = "Dark2")
+      p1 <- p1 + scale_fill_manual("Cell Groups", values = dfPalette)
     }
     
     gene_psi <- collection()$psi[gene_symbol == input$gene,-(cassette_exon:exon_boundary)] %>%
@@ -205,15 +231,19 @@ shinyServer(function(input, output, session) {
       scale_labels <- stringr::str_pad(seq(psiMin, psiMax, by = round((psiMax - psiMin)/4, digits=0)), width = padding_width, side = "right")
       break_numbers <- c(seq(psiMin, psiMax, by = round((psiMax - psiMin)/4, digits=0)))
       
+      p2left = 0
       if (nrow(gene_psi)/nrow(coverage) == 1) {
-        vshift <- 70
+        p2up <- 70
       } else if (nrow(gene_psi)/nrow(coverage) == 2) {
-        vshift <- 40
+        p2up <- 40
       } else {
-        vshift <- 0
+        p2up <- 0
       }
-      if (input$dataset == "ctms") {
-        vshift <- vshift + 60
+      if (input$dataset == "mesa") {
+        p2up <- p2up + 60
+      } else if (input$dataset == "ctms") {
+        p2up <- p2up + 118
+        p2left <- -23
       }
 
       p2 <- ggplot(gene_psi, aes(x = cell_type, y = exon_id)) +
@@ -224,7 +254,7 @@ shinyServer(function(input, output, session) {
         scale_x_discrete(expand = c(0, 0), limits = unique(gene_psi$cell_type)) +
         theme(text = element_text(size=16),
           plot.margin = unit(c(-5,0,0,0), "pt"),
-          legend.box.margin = unit(c(vshift,0,0,-nrow(coverage)/4.6666), "pt"),
+          legend.box.margin = unit(c(p2up,0,0,p2left-nrow(coverage)/4.6666), "pt"),
           axis.text.x = element_text(
           angle = 90,
           hjust = 1,
