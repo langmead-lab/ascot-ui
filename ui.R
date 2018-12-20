@@ -36,7 +36,7 @@ shinyUI(
 wellPanel(style = "
           background-color: #003082;
           box-shadow: 0 5px 5px -5px #333;
-          padding: 0px 10px 0px;
+          padding: 0px 10px 6px;
           ",
   fluidRow(style = "padding: 0px 10px 0px;",
     column(3, HTML("<font size=\"7\"><span style=\"color: #ffffff; 
@@ -53,13 +53,13 @@ wellPanel(style = "
     column(4, style = "padding: 7px 0px 0px;",
               HTML("<font size=\"5\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"naucpsi.html\" target=\"_blank\">How to use this website</a></span> <<</br></span></font>"),
+                    href=\"howtouse.html\" target=\"_blank\">How to use this website</a></span> <<</br></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
                     href=\"naucpsi.html\" target=\"_blank\">What do NAUC and PSI mean?</br></a></span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"http://snaptron.cs.jhu.edu/data/ascot/datasources.html\" 
+                    href=\"datasources.html\" 
                     target=\"_blank\">What publications did we use as data sources?</br></a></span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\"
@@ -67,17 +67,17 @@ wellPanel(style = "
                     </span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"http://snaptron.cs.jhu.edu/data/ascot/tables\" target=\"_blank\">Download the raw data tables</br></a></span></span></font>"),
+                    href=\"http://snaptron.cs.jhu.edu/data/ascot\" target=\"_blank\">Download the raw data tables</br></a></span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
                     href=\"https://github.com/jpling/ascot\" target=\"_blank\">GitHub repository</br></a></span></span></font>")
     ),
     column(2, style="padding: 28px 0px 0px;",
-              HTML("<font size=\"5\"><span style=\"color: #ffffff; font-family: Open Sans;\">For more details, please</br>refer to our preprint:</br>
+              HTML("<font size=\"4\"><span style=\"color: #ffffff; font-family: Open Sans;\">For more details, please</br>refer to our preprint:</br>
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
                     href=\"https://www.google.com\" target=\"_blank\">Ling et al. 2018 bioRxiv</a></span></span></font>")
     ),
-    column(3, style="padding: 5px 12px 5px;", align = "right", img(src="header160.png"))
+    column(3, align = "right", style="padding: 0px 0px 0px", img(src="header160.png", style="float: right; padding: 3px 0px 0px"))
   )
 ),
 
