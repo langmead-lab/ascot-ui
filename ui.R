@@ -38,13 +38,14 @@ wellPanel(style = "
           box-shadow: 0 5px 5px -5px #333;
           padding: 0px 10px 6px;
           ",
-  fluidRow(style = "padding: 0px 10px 0px;",
-    column(3, HTML("<font size=\"7\"><span style=\"color: #ffffff; 
+  fluidRow(style = "padding: 0px 10px 7px;",
+    column(4, HTML("<font size=\"8\"><span style=\"color: #ffffff; 
                     font-family: Open Sans; font-weight: 500;\">ASCOT<br/></span></font>"),
-              HTML("<font size=\"3\"><span style=\"color: #ffffff; 
+              HTML("<font size=\"4\"><span style=\"color: #ffffff; 
                     font-family: Open Sans;\">Alternative Splicing and Gene Expression<br/>
                     Summaries of Public RNA-Seq Data</span></font>"),
-              HTML("<font size=\"2\"><span style=\"color: #ffffff;\">
+              HTML("<div style=\"line-height:90%;\"><br/></div>"),
+              HTML("<font size=\"3\"><span style=\"color: #ffffff;\">
                     <br/><br/>(powered by <span><a style=\"color: #ffffff; text-decoration: underline;\" 
                     href=\"http://snaptron.cs.jhu.edu/\" target=\"_blank\">Snaptron</a></span>&nbspand&nbsp<span><a 
                     style=\"color: #ffffff; text-decoration: underline;\"
@@ -59,7 +60,7 @@ wellPanel(style = "
                     href=\"naucpsi.html\" target=\"_blank\">What do NAUC and PSI mean?</br></a></span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"datasources.html\" 
+                    href=\"/ds/ds_list.html\" 
                     target=\"_blank\">What publications did we use as data sources?</br></a></span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">
                     <span><a style=\"color: #ffffff; text-decoration: underline;\"
@@ -67,17 +68,17 @@ wellPanel(style = "
                     </span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"http://snaptron.cs.jhu.edu/data/ascot\" target=\"_blank\">Download the raw data tables</br></a></span></span></font>"),
+                    href=\"http://snaptron.cs.jhu.edu/data/ascot\" target=\"_blank\">Download the raw data tables</br></a>
+                    </span></span></font>"),
               HTML("<font size=\"3\"><span style=\"color: #ffffff; font-family: Open Sans;\">                    
                     <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://github.com/jpling/ascot\" target=\"_blank\">GitHub repository</br></a></span></span></font>")
+                    href=\"https://github.com/jpling/ascot\" target=\"_blank\">GitHub repository</br></br></a></span></span></font>"),
+              HTML("<font size=\"4\"><span style=\"color: #ffffff; font-family: Open Sans;\">Please cite:&nbsp<span>
+                    <a style=\"color: #ffffff; text-decoration: underline;\" 
+                    href=\"https://www.biorxiv.org/content/early/2018/12/20/501882\" target=\"_blank\">Ling et al. 2018 bioRxiv</a>
+                    </span></span></font>")
     ),
-    column(2, style="padding: 28px 0px 0px;",
-              HTML("<font size=\"4\"><span style=\"color: #ffffff; font-family: Open Sans;\">For more details, please</br>refer to our preprint:</br>
-                    <span><a style=\"color: #ffffff; text-decoration: underline;\" 
-                    href=\"https://www.google.com\" target=\"_blank\">Ling et al. 2018 bioRxiv</a></span></span></font>")
-    ),
-    column(3, align = "right", style="padding: 0px 0px 0px", img(src="header160.png", style="float: right; padding: 3px 0px 0px"))
+    column(4, align = "right", style="padding: 0px 20px 0px 0px", img(src="header160.png", style="float: right; padding: 23px 0px 0px"))
   )
 ),
 
@@ -135,7 +136,7 @@ wellPanel(style = "margin-top:-10px; padding: 5px 20px 0px;", fluidRow(
 plotOutput("plot", height = "auto") %>% withSpinner(),
 
 bsCollapsePanel(
-    "Select/Deselect Datasets",
+    "Show/Hide Datasets",
     style = "primary",
     wellPanel(tags$div(
       align = "left",
