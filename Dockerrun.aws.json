@@ -1,0 +1,37 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "ascot",
+      "image": "quay.io/benlangmead/ascot-ui",
+      "environment": [],
+      "essential": true,
+      "memory": 500,
+      "mountPoints": [],
+      "portMappings": [{
+        "hostPort": 80,
+        "containerPort": 3838
+      }],
+      "links": null,
+      "volumesFrom": [],
+      "extraHosts": null,
+      "dnsServers": null,
+      "disableNetworking": null,
+      "dnsSearchDomains": null,
+      "hostname": null,
+      "entryPoint": null,
+      "ulimits": null,
+      "dockerSecurityOptions": null,
+      "workingDirectory": null,
+      "readonlyRootFilesystem": null,
+      "command": null,
+      "user": null,
+      "dockerLabels": null,
+      "logConfiguration": null,
+      "cpu": 1,
+      "privileged": null,
+      "memoryReservation": null
+    }
+  ],
+  "volumes": []
+}
