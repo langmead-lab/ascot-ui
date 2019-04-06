@@ -11,11 +11,13 @@ The datasets are currently baked into the image (added via the `COPY data /srv/s
 
 ### Elastic Beanstalk
 
-In Beanstalk, the highest level of organization is an Application.  Everything discussed here 
+In Beanstalk, the highest level of organization is an Application.
+The next level is called an Environment.
+The steps below walk through creating an application and environment.
 
 #### Prerequisites
 
-Some prerequisites for using Elastic Beanstalk (EB).  These only need to be handled once per account or per user.  These steps should not need to be repeated for each new application or environment.
+Some prerequisites for using [Elastic Beanstalk (EB)](https://aws.amazon.com/elasticbeanstalk/).  These only need to be handled once per account or per user.  These steps should not need to be repeated for each new application or environment.
 
 * Make sure all the AZs have default subnets
     * `aws --profile jhu-langmead ec2 create-default-subnet --availability-zone us-east-2c`
@@ -57,10 +59,10 @@ I attached the policy to the `eb` group, and then added `langmead` to that group
 ./eb_create_env.sh
 ```
 
-#### Run the environment 
+#### Browse to the deployed app
 
 ```
-blah
+eb open
 ```
 
 A typical Beanstalk application will have more than one environment.  E.g. one for development, one for testing, and one for production.  Here we've just made one called `test` but we might want many.
