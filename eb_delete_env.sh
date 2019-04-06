@@ -1,3 +1,3 @@
 #!/bin/bash
 
-eb terminate ascot-test
+eb terminate test
