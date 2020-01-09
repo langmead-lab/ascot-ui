@@ -78,9 +78,9 @@ shinyServer(function(input, output, session) {
   
   defaultGene <- 1234
   observe({
-    defaultGene <- 4474    
+    defaultGene <- 4432
     if (input$dataset %in% c("mesa", "ctms")) {
-      defaultGene <- 6863
+      defaultGene <- 6854
     }
     updateSelectizeInput(
       session,
