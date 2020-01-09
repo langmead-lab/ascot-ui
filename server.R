@@ -222,7 +222,7 @@ shinyServer(function(input, output, session) {
           ),
             rownames = FALSE,
             colnames=excn,
-            options = list(dom = 't', order = list(list(0, 'desc'))))
+            options = list(paging = FALSE, dom = 't', order = list(list(0, 'desc'))))
       )
     
     if (nrow(gene_psi) == 0) {
